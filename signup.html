@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <title>Chat Application</title>
+</head>
+<body>
+  <div class="container">
+    <div class="card-body">
+     
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <h1 class="title">Expense Tracker App</h1>
+                <form  method="POST" id="signupform">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" id="name" name="name" class="form-control" required ><br>
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" class="form-control" required ><br>
+                <label for="number" class="form-label">Phone Number</label>
+                <input type="number" id="number" name="number" class="form-control" required ><br>
+                <label for="pass" class="form-label">Password</label>
+                <input type="text" id="pass" name="pass" class="form-control" required ><br>
+                 <button type="submit" class="btn btn-dark">register</button>
+               </form>
+               <a href="login.html">Existing user login</a>
+              </div>
+            <div class="col"></div>
+        </div>
+     
+     
+
+    </div>
+    </div>
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+<script >
+  const signUpForm =document.getElementById('signupform');
+  signUpForm.addEventListener('submit',onsubmit);
+  function onsubmit(e){
+    e.preventDefault();
+    const ip='localhost:3000';
+    const name=document.getElementById('name').value;
+    const email=document.getElementById('email').value;
+    const password=document.getElementById('pass').value;
+    const phoneno=document.getElementById('number').value;
+
+    const obj={
+      name,
+      email,
+      password,
+      phoneno
+    };
+
+    axios.get(`http://${ip}/user/signin/auth/${email}`)
+    .then((res)=>{
+      console.log(res.data);
+      if(res.data.existinguser==null){
+        axios.post(`http://${ip}/user/signin`,obj)
+        .then((res)=>{
+            console.log(res.data);
+            alert('user is sucessfully registered');
+        })
+        .catch((err)=>{
+          console.log(err);
+        })
+      }
+      else{
+        alert('already a user');
+      }
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+
+    
+    const name2=document.getElementById('name').value='';
+    const email2=document.getElementById('email').value='';
+    const password2=document.getElementById('pass').value='';
+    const phoneno2=document.getElementById('number').value='';
+
+    
+
+
+
+  };
+
+</script>
